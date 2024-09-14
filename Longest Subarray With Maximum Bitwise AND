@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums) {
+        int maxVal=0,ans=0,steak=0;
+        for(int num:nums){
+            if(maxVal < num){
+                maxVal=num;
+                ans = steak = 0;
+            }
+            if(maxVal == num){
+                steak++;
+            }else{
+                steak=0;
+            }
+            ans=max(ans,steak);
+        }
+        return ans;
+    }
+};
