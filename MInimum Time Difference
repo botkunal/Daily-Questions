@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int findMinDifference(vector<string>& timePoints) {
+        vector<int> hourToMin;
+        for(string& hours:timePoints){
+            int hour= (hours[0]-'0')*10 + (hours[1]-'0');
+            int min = (hours[3]-'0')*10 + (hours[4]-'0');
+
+            hourToMin.push_back((hour*60)+min);
+        }
+        ranges::sort(hourToMin);
+        int ans=INT_MAX;
+        for(int i=1;i<timePoints.size();i++){
+            ans=min(ans,hourToMin[i]-hourToMin[i-1]);
+        }
+        
+        ans=min(ans,((24*60+(hourToMin[0])) - hourToMin[timePoints.size()-1]));
+    
+        return ans;
+    }
+};
