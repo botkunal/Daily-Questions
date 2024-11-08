@@ -1,0 +1,18 @@
+class Solution {
+public:
+    vector<int> getMaximumXor(vector<int>& nums, int maximumBit) {
+        vector<int> ans(nums.size());
+        int currXor=0;
+        int target=(1<<maximumBit)-1;
+       
+        for(int num:nums){
+            currXor=currXor^num;
+        }
+
+        for(int i=0;i<nums.size();i++){
+            ans[i]=currXor^target;
+            target=target^nums[nums.size()-i-1];
+        }
+        return ans;
+    }
+};
