@@ -1,0 +1,51 @@
+class Solution {
+public:
+    void mark(int row,int col,vector<vector<int>>& grid){
+        //see downward
+        for(int i=row+1;i<grid.size();i++){
+            if(grid[i][col]==2 || grid[i][col]==1) break;
+                grid[i][col]=3;
+           
+        }
+        //see upward
+        for(int i=row-1;i>=0;i--){
+            if(grid[i][col]==2 || grid[i][col]==1) break;
+                grid[i][col]=3;
+           
+        }
+        //see right
+        for(int j=col+1;j<grid[0].size();j++){
+            if(grid[row][j]==2 || grid[row][j]==1) break;
+                grid[row][j]=3;
+           
+        }
+        //see left
+        for(int j=col-1;j>=0;j--){
+            if(grid[row][j]==2 || grid[row][j]==1) break;
+                grid[row][j]=3;
+           
+        }
+    }
+    int countUnguarded(int m, int n, vector<vector<int>>& guards, vector<vector<int>>& walls) {
+        vector<vector<int>> grid(m,vector<int>(n,0));
+
+        for(int i=0;i<guards.size();i++){
+            grid[guards[i][0]][guards[i][1]]=1;
+        }
+        for(int i=0;i<walls.size();i++){
+            grid[walls[i][0]][walls[i][1]]=2;
+        }
+
+        for(int i=0;i<guards.size();i++){
+            mark(guards[i][0],guards[i][1],grid);
+        }
+        
+        int ans=0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]==0) ans++;
+            }
+        }
+        return ans;
+    }
+};
