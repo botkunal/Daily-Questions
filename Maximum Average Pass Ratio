@@ -1,0 +1,33 @@
+class Solution {
+public:
+    double maxAverageRatio(vector<vector<int>>& classes, int extraStudents) {
+        //made built-in function maxGain to reduce code size
+        auto maxGain=[](int pass,int total){
+            return (double)(pass+1)/(total+1)-(double)(pass)/total;
+        };
+
+        //for storing the tuple
+        priority_queue<pair<double,pair<int,int>>> maxHeap;
+        // store tuple of <maxGain <pass, total>>
+        for(auto& singleClass:classes){
+            maxHeap.push({maxGain(singleClass[0],singleClass[1]),{singleClass[0],singleClass[1]}});
+        }
+        //using gready approach add extraStudents to class giveing maxGain          
+        while(extraStudents--){
+            auto [currentGain,classInfo] = maxHeap.top();
+            maxHeap.pop();
+            int pass=classInfo.first;
+            int total=classInfo.second;
+            maxHeap.push({maxGain(pass+1,total+1),{pass+1,total+1}});
+        }
+        // add singleClass raito to the maxPassRatio
+        double maxPassRatio=0;
+        while(!maxHeap.empty()){
+            auto [currGain,classInfo]=maxHeap.top();maxHeap.pop();
+            int pass=classInfo.first;
+            int total=classInfo.second;
+            maxPassRatio+=(double)pass/total;
+        }
+        return (double)maxPassRatio/classes.size();
+    }
+};
